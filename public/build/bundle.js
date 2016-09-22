@@ -2881,14 +2881,8 @@ var require$$0$4 = Object.freeze({
 	var drawEvents = [];
 
 	function resizeCanvasToVideo() {
-	  // TODO see if we can make it only cover the actual rendered video size
-	  /*
-	  const vw = video.videoWidth;
-	  const vh = video.videoHeight;
-	  const aspectRatio = vw / vh;
-	  */
-	  canvas.width = video$1.clientWidth;
-	  canvas.height = video$1.clientHeight;
+	  canvas.width = video$1.videoWidth;
+	  canvas.height = video$1.videoHeight;
 	}
 
 	/**
@@ -2956,7 +2950,7 @@ var require$$0$4 = Object.freeze({
 
 	  var touch = e.changedTouches && e.changedTouches.length ? e.changedTouches[0] : null;
 
-	  var coords = touch ? { x: touch.pageX, y: touch.pageY - HEADER_HEIGHT } : { x: e.clientX, y: e.clientY - HEADER_HEIGHT };
+	  var coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop } : { x: e.clientX - canvas.offsetLeft, y: e.clientY - canvas.offsetTop };
 
 	  touchedEmojiIndex = indexOfSelectedEmoji(coords);
 
@@ -9081,22 +9075,16 @@ var require$$0$4 = Object.freeze({
 
 	var backBtn = document.getElementById('btn-back-snapshot');
 	var tweetButton = document.getElementById('btn-share-twitter');
-	var cameraCanvas = document.getElementById('canvas-camera');
 	var drawingCanvas = document.getElementById('canvas-draw');
 	var saveCanvas = document.getElementById('canvas-save');
 	var saveImage = document.getElementById('image-save');
 	var saveCtx = saveCanvas.getContext('2d');
+	var video$2 = document.querySelector('video');
 
 	function initSave() {
 
-	  saveCanvas.width = window.innerWidth;
-	  saveCanvas.height = window.innerHeight - HEADER_HEIGHT;
-
 	  saveCtx.font = '16px Arial';
 	  saveCtx.fillStyle = '#fff';
-
-	  saveImage.width = window.innerWidth;
-	  saveImage.height = window.innerHeight - HEADER_HEIGHT;
 	}
 
 	function initControls$2() {
@@ -9127,8 +9115,11 @@ var require$$0$4 = Object.freeze({
 
 	    playCameraSound();
 
-	    // Copy the other canvases onto a single canvas for saving
-	    saveCtx.drawImage(cameraCanvas, 0, 0);
+	    saveCanvas.width = video$2.videoWidth;
+	    saveCanvas.height = video$2.videoHeight;
+
+	    // Copy video and annotations onto a single canvas for saving
+	    saveCtx.drawImage(video$2, 0, 0);
 	    saveCtx.drawImage(drawingCanvas, 0, 0);
 
 	    // Add the URL at the bottom
