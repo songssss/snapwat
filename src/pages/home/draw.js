@@ -3,6 +3,7 @@ import {HEADER_HEIGHT} from '../../shared/constants';
 
 let canvas = document.getElementById('canvas-draw');
 let ctx = ctx = canvas.getContext('2d');
+let video = document.querySelector('video');
 let colourInput = document.getElementById('input-colour');
 let trashButton = document.getElementById('btn-trash');
 let emojiButton = document.getElementById('btn-emoji');
@@ -17,6 +18,16 @@ let isRedrawing = false;
 // Store drawing events (lines and emojis) for redrawing
 let drawEvents = [];
 
+function resizeCanvasToVideo() {
+  // TODO see if we can make it only cover the actual rendered video size
+  /*
+  const vw = video.videoWidth;
+  const vh = video.videoHeight;
+  const aspectRatio = vw / vh;
+  */
+  canvas.width = video.clientWidth;
+  canvas.height = video.clientHeight;
+}
 
 /**
  * Returns index of touched emoji in the drawEvents, or -1 if none touched.
@@ -64,13 +75,15 @@ function stampEmoji(coords) {
 
 }
 
-function onDrawingMouseDown(coords) {
+function startDrawing(coords) {
 
   const x = coords.x;
   const y = coords.y;
 
   ctx.beginPath();
   ctx.moveTo(x, y);
+
+  console.log('start drawing');
 
   isDrawing = true;
 
@@ -94,14 +107,14 @@ function onTouchStartOrMouseDown(e) {
   touchedEmojiIndex = indexOfSelectedEmoji(coords);
 
   if (touchedEmojiIndex > -1) {
-    // Selected an existing emoji - fall through
+    // Selected an emoji already on the canvas - fall through
     return;
   }
 
   if (chosenEmoji) {
     stampEmoji(coords);
   } else {
-    onDrawingMouseDown(coords);
+    startDrawing(coords);
   }
 
 }
@@ -154,6 +167,8 @@ function onTouchMoveOrMouseMove(e) {
     }
 
   } else if (isDrawing) {
+
+    console.log('drawing...');
 
     ctx.lineTo(coords1.x, coords1.y);
     ctx.stroke();
@@ -229,8 +244,8 @@ function onColourClickOrChange() {
 }
 
 function initCanvas() {
-  canvas.width  = window.innerWidth;
-  canvas.height = window.innerHeight - HEADER_HEIGHT;
+  video.addEventListener('loadedmetadata', resizeCanvasToVideo, false);
+  window.addEventListener('resize', resizeCanvasToVideo, false);
 
   canvas.addEventListener('touchstart', onTouchStartOrMouseDown, false);
   canvas.addEventListener('touchmove', onTouchMoveOrMouseMove, false);

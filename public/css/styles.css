@@ -181,16 +181,19 @@ strong {
 
 video {
   position: absolute;
-  visibility: hidden;
+  z-index: -1;
   width: 100%;
   height: 100%;
 }
 
 canvas {
-  position: absolute;
+  margin: auto;
+  display: block;
+  z-index: 1;
 }
 
 #canvas-save {
+  position: absolute;
   visibility: hidden;
 }
 
