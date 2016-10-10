@@ -19,14 +19,8 @@ let isRedrawing = false;
 let drawEvents = [];
 
 function resizeCanvasToVideo() {
-  // TODO see if we can make it only cover the actual rendered video size
-  /*
-  const vw = video.videoWidth;
-  const vh = video.videoHeight;
-  const aspectRatio = vw / vh;
-  */
-  canvas.width = video.clientWidth;
-  canvas.height = video.clientHeight;
+  canvas.width = video.videoWidth;
+  canvas.height = video.videoHeight;
 }
 
 /**
@@ -97,12 +91,11 @@ function startDrawing(coords) {
 
 function onTouchStartOrMouseDown(e) {
 
-
   let touch = e.changedTouches && e.changedTouches.length ?
     e.changedTouches[0] : null;
 
-  let coords = touch ? { x: touch.pageX, y: touch.pageY - HEADER_HEIGHT } :
-  {x: e.clientX, y: e.clientY - HEADER_HEIGHT};
+  let coords = touch ? { x: touch.pageX - canvas.offsetLeft, y: touch.pageY - canvas.offsetTop } :
+    {x: e.clientX - canvas.offsetLeft, y: e.clientY - canvas.offsetTop};
 
   touchedEmojiIndex = indexOfSelectedEmoji(coords);
 

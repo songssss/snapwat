@@ -11,22 +11,16 @@ const PAGE_NAME = PAGES.SNAPSHOT;
 
 let backBtn = document.getElementById('btn-back-snapshot');
 let tweetButton = document.getElementById('btn-share-twitter');
-let cameraCanvas = document.getElementById('canvas-camera');
 let drawingCanvas = document.getElementById('canvas-draw');
 let saveCanvas = document.getElementById('canvas-save');
 let saveImage = document.getElementById('image-save');
 let saveCtx = saveCanvas.getContext('2d');
+let video = document.querySelector('video');
 
 function initSave() {
 
-  saveCanvas.width  = window.innerWidth;
-  saveCanvas.height = window.innerHeight - HEADER_HEIGHT;
-
   saveCtx.font = '16px Arial';
   saveCtx.fillStyle = '#fff';
-
-  saveImage.width  = window.innerWidth;
-  saveImage.height = window.innerHeight - HEADER_HEIGHT;
 
 }
 
@@ -62,8 +56,11 @@ export default {
 
     playCameraSound();
 
-    // Copy the other canvases onto a single canvas for saving
-    saveCtx.drawImage(cameraCanvas, 0, 0);
+    saveCanvas.width  = video.videoWidth;
+    saveCanvas.height = video.videoHeight;
+
+    // Copy video and annotations onto a single canvas for saving
+    saveCtx.drawImage(video, 0, 0);
     saveCtx.drawImage(drawingCanvas, 0, 0);
 
     // Add the URL at the bottom
