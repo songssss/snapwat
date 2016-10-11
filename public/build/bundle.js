@@ -2885,10 +2885,15 @@ var require$$0$4 = Object.freeze({
 	    return;
 	  }
 
-	  navigator.mediaDevices.getUserMedia({ audio: false, video: {
-	      width: { ideal: video.clientWidth },
-	      height: { ideal: video.clientHeight }
-	    } }).then(function (stream) {
+	  var maxWidth = video.clientWidth;
+	  var maxHeight = video.clientHeight - HEADER_HEIGHT;
+
+	  var constraints = {
+	    width: { ideal: maxWidth, max: maxWidth },
+	    height: { ideal: maxHeight, max: maxHeight }
+	  };
+
+	  navigator.mediaDevices.getUserMedia({ audio: false, video: constraints }).then(function (stream) {
 
 	    var videoTracks = stream.getVideoTracks();
 

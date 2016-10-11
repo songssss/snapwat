@@ -15,10 +15,15 @@ function initCameraStream() {
     return;
   }
 
-  navigator.mediaDevices.getUserMedia({audio: false, video: {
-    width: {ideal: video.clientWidth},
-    height: {ideal: video.clientHeight}
-  }})
+  const maxWidth = video.clientWidth;
+  const maxHeight = video.clientHeight - HEADER_HEIGHT;
+
+  const constraints = {
+    width: {ideal: maxWidth, max: maxWidth},
+    height: {ideal: maxHeight, max: maxHeight}
+  };
+
+  navigator.mediaDevices.getUserMedia({audio: false, video: constraints})
     .then((stream) => {
 
       let videoTracks = stream.getVideoTracks();
