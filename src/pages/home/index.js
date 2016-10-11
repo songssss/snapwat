@@ -1,6 +1,6 @@
 import Camera from './camera';
 import Draw from './draw';
-import SnapshotPage from '../snapshot';
+import SavePage from '../save';
 import {PAGES} from '../../shared/constants';
 import {showPage} from '../../shared/helpers';
 
@@ -11,7 +11,7 @@ let snapshotBtn = document.getElementById('btn-snapshot');
 function initControls() {
 
   snapshotBtn.addEventListener('click', () => {
-    SnapshotPage.show();
+    SavePage.show();
   });
 
 }

@@ -3,7 +3,7 @@ import InputColour from './shared/inputColour';
 import Audio from './shared/audio';
 
 import HomePage from './pages/home';
-import SnapshotPage from './pages/snapshot';
+import SavePage from './pages/save';
 import SharePage from './pages/share';
 
 SWRegister();
@@ -11,5 +11,5 @@ InputColour();
 Audio();
 
 HomePage.init();
-SnapshotPage.init();
+SavePage.init();
 SharePage.init();

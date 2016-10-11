@@ -1,7 +1,7 @@
 import * as hellojs from 'hellojs';
 import {PAGES} from '../shared/constants';
 import HomePage from './home';
-import SnapshotPage from './snapshot';
+import SavePage from './save';
 import {dataURItoBlob, showPage, showPrompt} from '../shared/helpers';
 
 const hello = hellojs.default;
@@ -49,7 +49,7 @@ function initControls() {
   });
 
   backBtn.addEventListener('click', () => {
-    SnapshotPage.show();
+    SavePage.show();
   });
 
 }

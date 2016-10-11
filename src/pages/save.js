@@ -17,13 +17,6 @@ let saveImage = document.getElementById('image-save');
 let saveCtx = saveCanvas.getContext('2d');
 let video = document.querySelector('video');
 
-function initSave() {
-
-  saveCtx.font = '16px Arial';
-  saveCtx.fillStyle = '#fff';
-
-}
-
 function initControls() {
 
   tweetButton.addEventListener('click', () => {
@@ -48,7 +41,6 @@ function initControls() {
 export default {
 
   init: function () {
-    initSave();
     initControls();
   },
 
@@ -63,9 +55,12 @@ export default {
     saveCtx.drawImage(video, 0, 0);
     saveCtx.drawImage(drawingCanvas, 0, 0);
 
+    saveCtx.font = '16px Arial';
+    saveCtx.fillStyle = '#fff';
+
     // Add the URL at the bottom
     saveCtx.fillText('snapw.at', saveCanvas.width - 72, saveCanvas.height - 15);
-
+    
     saveImage.src = saveCanvas.toDataURL('image/png');
     saveImage.style.display = 'block';
 
